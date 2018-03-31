@@ -22,8 +22,11 @@ var ListSort = /** @class */ (function () {
         else if (findNumber >= list[indexe]) {
             index = indexe + 1;
         }
+        else if (indexe - indexs == 1) {
+            index = indexe;
+        }
         else {
-            var halfIndex = Math.floor(indexe + indexs) / 2;
+            var halfIndex = Math.ceil((indexe + indexs) / 2);
             if (findNumber <= list[halfIndex]) {
                 index = ListSort.binarySearch(list, indexs, halfIndex, findNumber); // 递归折半查找
             }
@@ -80,19 +83,137 @@ var ListSort = /** @class */ (function () {
         return list;
     };
     /**
-     * 冒泡排序算法执行
+     * 冒泡排序算法执行  升序排列
      */
     ListSort.popSort = function (list) {
+        var length = list.length;
+        for (var i = 0; i < length - 1; i++) { // 冒泡次数循环
+            var max = list[0];
+            for (var j = 1; j < length - i; j++) { //比较循环
+                if (list[j] < max) { // 遇到小的，交换位置
+                    var current = list[j];
+                    list[j] = max;
+                    list[j - 1] = current;
+                }
+                else { // 遇到大的，不交换位置，替换最大值
+                    max = list[j];
+                }
+            }
+        }
+        return list;
     };
     /**
-     * 快速排序算法执行
+     * 快速排序算法执行   // 冒泡的一种优化算法 ， 升序排序
      */
-    ListSort.quickSort = function (list) {
+    ListSort.quickSort = function (list, startIndex, EndIndex) {
+        var mid = list[startIndex];
+        var left = startIndex;
+        var right = EndIndex;
+        var p = left;
+        while (left < right) {
+            //1. p 如果在left的右边则，则left向右移动
+            //2. p 如果在right的左边，则right向左边移动
+            //3. 交换位置的时候不移动left和right的指针，
+            //4. p 指针不是在left位置，就是在right位置，当left和right相等的时候推出排序。
+            if (p < right) {
+                if (list[right] < list[p]) {
+                    // 交换位置
+                    var temp = list[right];
+                    list[right] = list[p];
+                    list[p] = temp;
+                    p = right;
+                }
+                else {
+                    // right 向左移动
+                    right--;
+                }
+            }
+            else {
+                if (list[left] > list[p]) {
+                    // 交换位置
+                    var temp = list[left];
+                    list[left] = list[p];
+                    list[p] = temp;
+                    p = left;
+                }
+                else {
+                    // left 向右移动
+                    left++;
+                }
+            }
+        }
+        // 1. p = startIndex 则不再进行递归调用
+        if (p > startIndex) {
+            ListSort.quickSort(list, startIndex, p - 1);
+        }
+        if (p < EndIndex) {
+            ListSort.quickSort(list, p + 1, EndIndex);
+        }
+        return list;
+    };
+    /**
+     * 归并算法
+     */
+    ListSort.combine = function (list, p1, p2, p3, p4) {
+        var p = p1;
+        var result = [];
+        for (var i = p3; i <= p4; i++) {
+            if (list[i] <= list[p]) {
+                result.push(list[i]);
+            }
+            else {
+                result.push(list[p]);
+                p++;
+                if (p <= p3) {
+                    i--; // 循环重新来
+                }
+                if (p == p3) { // 第一组存入完毕，把光标放到最大
+                    p = p4;
+                }
+            }
+        }
+        if (p < p2) {
+            // 第一个序列剩余的填入完毕
+            for (var j = p; j <= p2; j++) {
+                result.push(list[j]);
+            }
+        }
+        /** 修改原数组的排序 */
+        for (var k = 0; k < result.length; k++) {
+            list[p1 + k] = result[k];
+        }
+        return list;
     };
     /**
      * 归并排序算法执行
      */
     ListSort.dividAndConquerSort = function (list) {
+        // 分治过程
+        for (var i = 0; i < list.length; i += 2) {
+            if (list[i] > list[i + 1]) {
+                var temp = list[i];
+                list[i] = list[i + 1];
+                list[i + 1] = temp;
+            }
+        }
+        // 归并过程
+        var n = 1;
+        while (Math.pow(2, n) < list.length) {
+            var dl = Math.pow(2, n);
+            for (var i = 0; i < list.length; i += dl * 2) {
+                if (i + dl - 1 >= list.length - 1) {
+                    break;
+                }
+                else if (i + dl * 2 - 1 > list.length - 1) {
+                    ListSort.combine(list, i, i + dl - 1, i + dl, list.length - 1);
+                }
+                else {
+                    ListSort.combine(list, i, i + dl - 1, i + dl, i + dl * 2 - 1);
+                }
+            }
+            n++;
+        }
+        return list;
     };
     /**
      * 桶排序

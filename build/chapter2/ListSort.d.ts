@@ -18,17 +18,21 @@ export declare class ListSort {
      */
     static binaryInsertSort(list: Array<number>): Array<number>;
     /**
-     * 冒泡排序算法执行
+     * 冒泡排序算法执行  升序排列
      */
-    static popSort(list: Array<number>): void;
+    static popSort(list: Array<number>): Array<number>;
     /**
-     * 快速排序算法执行
+     * 快速排序算法执行   // 冒泡的一种优化算法 ， 升序排序
      */
-    static quickSort(list: Array<number>): void;
+    static quickSort(list: Array<number>, startIndex: number, EndIndex: number): Array<number>;
+    /**
+     * 归并算法
+     */
+    static combine(list: Array<number>, p1: number, p2: number, p3: number, p4: number): Array<number>;
     /**
      * 归并排序算法执行
      */
-    static dividAndConquerSort(list: Array<number>): void;
+    static dividAndConquerSort(list: Array<number>): Array<number>;
     /**
      * 桶排序
      */
