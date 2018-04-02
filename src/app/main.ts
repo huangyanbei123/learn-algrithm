@@ -1,4 +1,4 @@
-import { ListSort } from './../chapter2/ListSort';
+import { ListSort } from './../sort/ListSort';
 
 function main() {
    var list = [2, 1, 5, 5, 4, 9, 3, 10];
