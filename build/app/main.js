@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var HashTable_1 = require("./../hashtable/HashTable");
+var BinaryTree_1 = require("../tree/BinaryTree");
 function main() {
     //////////排序测试///////////////////////////
     // var list = [2, 1, 5, 5, 4, 9, 3, 10];
@@ -24,12 +24,19 @@ function main() {
     // var result = ListSort.dividAndConquerSort(list);
     // console.log('归并排序', result);
     //////////哈希表测试///////////////////////////
-    var table = new HashTable_1.HashTable();
-    table.set("dd", "2");
-    table.set("2d", "22");
-    table.set("dg", "2222");
-    table.set("sgd", "22222");
-    var tt = table.get("dd");
+    // var table = new HashTable<string, string>();
+    // table.set("dd", "2");
+    // table.set("2d", "22");
+    // table.set("dg", "2222");
+    // table.set("sgd", "22222");
+    // var tt = table.get("dd");
+    //////////二叉树测试///////////////////////////
+    var dd = [10, 4, 8, 12, 5, 15, 3, 16, 17, 11, 1, 2, 7, 9, 19, 13];
+    var tree = new BinaryTree_1.BinaryTree();
+    for (var i = 0; i < dd.length; i++) {
+        tree.insertNode(dd[i]);
+    }
+    tree.show(tree.root);
 }
 main();
 //# sourceMappingURL=main.js.map
