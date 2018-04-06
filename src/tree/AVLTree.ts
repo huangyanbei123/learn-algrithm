@@ -186,10 +186,8 @@ export class AVLTree {
                 } else {
                     if (node.left) {
                         return node.left;
-
                     } else if (node.right) {
                         return node.right;
-
                     } else {
                         return null;
                     }
