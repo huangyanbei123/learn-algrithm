@@ -34,9 +34,12 @@ function main() {
     var dd = [10, 4, 8, 12, 5, 15, 3, 16, 17, 11, 1, 2, 7, 9, 19, 13];
     var tree = new BinaryTree_1.BinaryTree();
     for (var i = 0; i < dd.length; i++) {
-        tree.insertNode(dd[i]);
+        tree.root = tree.insert(tree.root, dd[i]);
     }
     tree.show(tree.root);
+    tree.root = tree.remove(tree.root, 8);
+    tree.show(tree.root);
+    stop;
 }
 main();
 //# sourceMappingURL=main.js.map
